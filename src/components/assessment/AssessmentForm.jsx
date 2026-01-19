@@ -14,6 +14,7 @@ import Image3 from "../../Assete/image3.png";
 import Image4 from "../../Assete/image4.png";
 import Image5 from "../../Assete/image5.png";
 import Image6 from "../../Assete/image6.png";
+import { bass_URL } from "../../utils/api";
 
 const IMAGE = [Image1, Image2, Image3, Image4, Image5, Image6];
 
