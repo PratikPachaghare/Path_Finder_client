@@ -15,6 +15,7 @@ import ChatDashboard from "./components/chatbot/ChatBot";
 import CourseApp from "./components/CourseCom/CourseApp";
 import GenModelsAi from "./components/GenModels/GenModelsAi";
 import ResumeBuilder from "./components/Resume/ResumeBuilder";
+import { bass_URL } from "./utils/api";
 // import CourseVideoPage from "./components/CourseCom/VedioCard";
 
 function ChatBotButton() {
@@ -43,7 +44,7 @@ function App() {
 
     const fetchUser = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/auth/me", {
+        const response = await fetch(`${bass_URL}/auth/me`, {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
         });
