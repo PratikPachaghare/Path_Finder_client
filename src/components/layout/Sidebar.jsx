@@ -66,6 +66,7 @@ const Sidebar = () => {
               { path: '/assessment', label: 'Assessment', icon: BarChart2 },
               { path: '/roadmap', label: 'Roadmap Dashboard', icon: Map },
               { path: '/Resume', label: 'Resume Builder', icon: Settings },
+              { path: '/Learning', label: 'Learning Dashboard', icon: BarChart2 },
               { path: '/chatBot', label: 'Talk to AI', icon: Bot },
               { path: '/consultant', label: 'Consultant', icon: UserCog },
               { path: '/courses', label: 'Courses', icon: GraduationCap },

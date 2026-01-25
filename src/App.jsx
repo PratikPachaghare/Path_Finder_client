@@ -16,6 +16,7 @@ import CourseApp from "./components/CourseCom/CourseApp";
 import GenModelsAi from "./components/GenModels/GenModelsAi";
 import ResumeBuilder from "./components/Resume/ResumeBuilder";
 import { bass_URL } from "./utils/api";
+import LearningDashboard from "./components/Lerning/LearningDashboard";
 // import CourseVideoPage from "./components/CourseCom/VedioCard";
 
 function ChatBotButton() {
@@ -101,6 +102,7 @@ function App() {
                 <Route path="/courses" element={<CourseApp />} />
                 <Route path="/predict" element={<GenModelsAi />} />
                 <Route path="/Resume" element={<ResumeBuilder />} />
+                <Route path="/Learning" element={<LearningDashboard />} />
                 
                 {/* <Route path="/CourseVedio/:courseId" element={<CourseVideoPage />} /> */}
                 <Route path="*" element={<Navigate to="/welcome" />} />
