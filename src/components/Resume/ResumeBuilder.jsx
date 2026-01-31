@@ -14,37 +14,54 @@ import Template9 from './tamplets/Template9';
 // Add this at the top of ResumeBuilder.jsx, outside the component
 const DUMMY_DATA = {
   personalInfo: {
-    fullName: "PRATIK PACHGHARE",
-    jobTitle: "full stack devlopmentt",
-    email: "Pratik2@gmail.com",
-    phone: "09370575105",
-    linkedin: "linkedin.com/in/pratik-pachghare-548a8a290/",
-    github: "github.com/PratikPachaghare",
-    summary: "Highlight Skills and Goals: Your summary should showcase your key skills, educational background, and career aspirations. For example, 'Recent Computer Science graduate with strong programming skills and a passion for software development.' Tailor to the Job: Customize your summary for the specific role you are applying for."
+    fullName: "TAYLOR SWIFT",
+    jobTitle: "Music Producer & Entrepreneur",
+    email: "taylor.swift@example.com",
+    phone: "+1 (615) 555-0123",
+    linkedin: "linkedin.com/in/taylorswift",
+    github: "github.com/taylorswift",
+    summary: "Award-winning music producer and songwriter with over 15 years of experience in the entertainment industry. Known for innovative album production, songwriting excellence, and successful business ventures. Expertise in brand development, digital marketing, and music technology. Passionate about mentoring emerging artists and leveraging technology for creative expression."
   },
   experience: [
     { 
-      title: "full stack devlopmentt", 
-      company: "fascave", 
-      year: "2023 - Present", 
-      desc: "table. For example, 'Enthusiastic biology graduate with research experience and a strong foundation in laboratory techniques, seeking to apply knowledge in a research assistant position.'" 
+      title: "Founder & CEO", 
+      company: "Taylor Swift Productions", 
+      year: "2015 - Present", 
+      desc: "Founded and manage independent music production company with focus on artist development, album production, and innovative music technology integration. Led strategic expansion into multiple entertainment verticals including film production and music publishing." 
+    },
+    { 
+      title: "Lead Artist & Songwriter", 
+      company: "Republic Records", 
+      year: "2008 - 2014", 
+      desc: "Wrote and produced multiple Grammy-winning albums, achieving unprecedented commercial success. Pioneered new songwriting techniques and collaborated with industry-leading producers and artists worldwide." 
+    },
+    { 
+      title: "Emerging Artist", 
+      company: "Big Machine Records", 
+      year: "2004 - 2007", 
+      desc: "Started music career as emerging artist, released debut album, and established foundation for international success through consistent songwriting and live performances." 
     }
   ],
   education: [
-    { school: "PR pote college of enginering", degree: "B.E", year: "2026" },
-    { school: "higher secondery school", degree: "12th pass", year: "2022" }
+    { school: "Hendersonville High School", degree: "High School Diploma", year: "2008" },
+    { school: "Belmont University", degree: "Music Industry Studies (Online)", year: "2010" }
   ],
-  skills: ["React", "Node.js", "Python", "cad"],
+  skills: ["Music Production", "Songwriting", "Business Management", "Digital Marketing", "Brand Strategy", "Audio Engineering", "Video Direction", "Performance", "Public Speaking", "Entrepreneurship"],
   projects: [
-    { title: "E-commece devlopment website", desc: "Mern stack project" },
-    { title: "E-commece devlopment website", desc: "Mern stack project" }
+    { title: "Folklore Album", desc: "Grammy Award-winning surprise album release with innovative marketing strategy during pandemic" },
+    { title: "Midnights Album", desc: "Midnight Mayhem with Jack Antonoff featuring synthetic production and introspective songwriting" },
+    { title: "Re-recordings Project", desc: "Strategic artist ownership initiative re-recording all catalog albums for maximum creative and financial control" },
   ],
   certifications: [
-    { name: "android devloper", issuer: "google", year: "2024" }
+    { name: "Grammy Award - Best Album", issuer: "The Recording Academy", year: "2021" },
+    { name: "Billboard Woman of the Year", issuer: "Billboard", year: "2022" },
+    { name: "Music Business Professional Certification", issuer: "Berklee College of Music", year: "2015" },
   ],
   strengths: [
-    "Got it — you're looking for resume strengths for freshers that can make your profile stand out even without much work experience."
-  ]
+    "Exceptional songwriting and storytelling ability",
+    "Strong leadership and team management skills",
+    "Excellent communication and public relations expertise",
+    ]
 };
 
 const ResumeBuilder = () => {
