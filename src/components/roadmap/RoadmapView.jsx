@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BookOpen,
   Briefcase,
@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 import { jsPDF } from "jspdf";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams,useLocation } from "react-router-dom";
 import { PlusCircle, Trash2 } from "lucide-react";
 
 
@@ -172,15 +172,45 @@ const our_courses = [
     },
   ];
 const RoadmapView = ({careerData}) => {
+  const location = useLocation();
+  const isNew = location.state?.isNew;
   const [expandedCard, setExpandedCard] = useState(null);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [ratings, setRatings] = useState({
+    contentQuality: 0,
+    clarity: 0,
+    effectiveness: 0,
+    overall: 0
+  });
+  const [feedback, setFeedback] = useState("");
+  const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
   const navigate = useNavigate();
+
+  // Detect when user scrolls to bottom
+  useEffect(() => {
+    if (!isNew) return;
+
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight;
+      const winHeight = window.innerHeight;
+      const scrollPercent = (scrollTop + winHeight) / docHeight;
+
+      if (scrollPercent > 0.9 && !hasScrolledToBottom && !showFeedbackModal) {
+        setHasScrolledToBottom(true);
+        setShowFeedbackModal(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isNew, hasScrolledToBottom, showFeedbackModal]);
 
   if(!careerData){
     console.log("roadmap not availbale go to the assiment or roadmap dashbord ");
     return
   }
 
-  console.log("printRoadmap Data : ",careerData);
   // ouver course highli
   // Function to filter related our courses
   const getRelatedOurCourses = (careerData, ourCourses) => {
@@ -595,6 +625,60 @@ yPos += 12;
   
     doc.save("career-roadmap.pdf");
   };
+
+  const handleFeedbackSubmit = () => {
+    const feedbackData = {
+      ratings,
+      feedback,
+      careerPath: careerData.title,
+      timestamp: new Date().toISOString(),
+    };
+    
+    console.log("Feedback Submitted:", feedbackData);
+    console.log("Content Quality Rating:", ratings.contentQuality);
+    console.log("Clarity Rating:", ratings.clarity);
+    console.log("Effectiveness Rating:", ratings.effectiveness);
+    console.log("Overall Experience Rating:", ratings.overall);
+    console.log("Feedback Text:", feedback);
+    
+    // Temporary function call - replace with actual API call later
+    console.log("Sending feedback to backend...");
+    
+    // Reset form and close modal
+    setShowFeedbackModal(false);
+    setRatings({
+      contentQuality: 0,
+      clarity: 0,
+      effectiveness: 0,
+      overall: 0
+    });
+    setFeedback("");
+  };
+
+  const renderStarRating = (fieldName, label) => (
+    <div className="mb-5">
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        {label}
+      </label>
+      <div className="flex gap-2 justify-start">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <button
+            key={star}
+            onClick={() => setRatings({ ...ratings, [fieldName]: star })}
+            className="focus:outline-none transition-transform hover:scale-110"
+          >
+            <Star
+              className={`w-7 h-7 ${
+                star <= ratings[fieldName]
+                  ? "fill-yellow-400 text-yellow-400"
+                  : "text-gray-300"
+              }`}
+            />
+          </button>
+        ))}
+      </div>
+    </div>
+  );
   
 
 
@@ -1211,6 +1295,67 @@ yPos += 12;
           Download Text PDF 
         </button>
       </div>
+
+      {/* Feedback Modal */}
+      {showFeedbackModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full mx-4">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">
+              How was your roadmap experience?
+            </h3>
+            <p className="text-gray-600 mb-6">
+              Your feedback helps us improve the roadmap for other students.
+            </p>
+
+            {/* Multiple Star Ratings */}
+            <div className="mb-6 max-h-64 overflow-y-auto">
+              {renderStarRating("contentQuality", "📚 Content Quality")}
+              {renderStarRating("clarity", "🎯 Clarity & Usefulness")}
+              {renderStarRating("effectiveness", "✅ Effectiveness")}
+              {renderStarRating("overall", "⭐ Overall Experience")}
+            </div>
+
+            {/* Feedback Text */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Your feedback
+              </label>
+              <textarea
+                value={feedback}
+                onChange={(e) => setFeedback(e.target.value)}
+                placeholder="Tell us what you think about this roadmap..."
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent resize-none"
+                rows="4"
+              />
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex gap-3">
+              <button
+                onClick={handleFeedbackSubmit}
+                className="flex-1 px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
+              >
+                Submit Feedback
+              </button>
+              <button
+                onClick={() => {
+                  setShowFeedbackModal(false);
+                  setRatings({
+                    contentQuality: 0,
+                    clarity: 0,
+                    effectiveness: 0,
+                    overall: 0
+                  });
+                  setFeedback("");
+                }}
+                className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition"
+              >
+                Skip
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

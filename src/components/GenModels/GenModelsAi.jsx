@@ -1,361 +1,290 @@
-import React, { useState } from 'react';
-import { Briefcase, GraduationCap, LineChart, Brain } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { 
+  Briefcase, GraduationCap, Brain, 
+  ChevronRight, CheckCircle, ArrowLeft,
+  ShieldCheck, Zap, BarChart3, Target, Info,DollarSign,TrendingUp ,BookOpen 
+} from 'lucide-react';
+
+// Importing your data from local files
 import { companies } from './data/companies';
-import { colleges } from './data/colleges';
-import { bass_URL } from '../../utils/api';
+import { branchData } from './data/branchData';
 
 function GenModelsAi() {
   const [activeSection, setActiveSection] = useState('company');
-  const [academicScore, setAcademicScore] = useState({
-    tenth: '',
-    twelfth: '',
-    cgpa: ''
-  });
+  const [step, setStep] = useState(1); 
+  const [branch, setBranch] = useState('');
+  const [academicScore, setAcademicScore] = useState({ cgpa: '' });
+  const [answers, setAnswers] = useState({});
 
-  const [programmingSkills, setProgrammingSkills] = useState({
-    Java: false,
-    Python: false,
-    JavaScript: false,
-    'C++': false,
-    '.NET': false,
-    Ruby: false,
-    Go: false
-  });
+  // Calculation Logic using your imported companies.js
+  const predictedCompanies = useMemo(() => {
+    if (!branch || !academicScore.cgpa) return [];
+    
+    // Get list of skills user checked based on questions
+    const studentSkills = branchData[branch]?.questions
+      .filter(q => answers[q.id])
+      .map(q => q.skill) || [];
 
-  const [frameworks, setFrameworks] = useState({
-    React: false,
-    Angular: false,
-    Vue: false,
-    Spring: false,
-    Django: false,
-    'Node.js': false
-  });
+    return companies
+      .filter(company => Number(academicScore.cgpa) >= (company.minCGPA || 6.0))
+      .map(company => {
+        const matchedSkills = company.requiredSkills.filter(s => studentSkills.includes(s));
+        const skillMatchScore = (matchedSkills.length / company.requiredSkills.length) * 100;
+        
+        // 70% skill weight + 30% CGPA weight
+        const finalScore = Math.round(skillMatchScore * 0.7 + (Number(academicScore.cgpa) / 10) * 30);
+        
+        return { 
+          ...company, 
+          matchScore: finalScore || 45,
+          matchedSkills: matchedSkills,
+          missingSkills: company.requiredSkills.filter(s => !studentSkills.includes(s))
+        };
+      })
+      .sort((a, b) => b.matchScore - a.matchScore)
+      .slice(0, 6); // Display top 6 matches
+  }, [branch, academicScore.cgpa, answers]);
 
-  const [databases, setDatabases] = useState({
-    SQL: false,
-    MongoDB: false,
-    PostgreSQL: false,
-    Oracle: false,
-    Redis: false
-  });
-
-  const [cloudSkills, setCloudSkills] = useState({
-    AWS: false,
-    Azure: false,
-    GCP: false,
-    DevOps: false,
-    Docker: false,
-    Kubernetes: false
-  });
-
-  const [softSkills, setSoftSkills] = useState({
-    communication: false,
-    leadership: false,
-    timeManagement: false,
-    decisionMaking: false,
-    problemSolving: false,
-    teamwork: false
-  });
-
-  const [hasInternship, setHasInternship] = useState(false);
-  const [responceses,setResponceses] = useState([]);
-  const [examScore, setExamScore] = useState('');
-  const [selectedExam, setSelectedExam] = useState('JEE Main');
-
-  const getAllSelectedSkills = () => {
-    return [
-      ...Object.entries(programmingSkills).filter(([_, value]) => value).map(([key]) => key),
-      ...Object.entries(frameworks).filter(([_, value]) => value).map(([key]) => key),
-      ...Object.entries(databases).filter(([_, value]) => value).map(([key]) => key),
-      ...Object.entries(cloudSkills).filter(([_, value]) => value).map(([key]) => key)
-    ];
-  };
-
-  const predictComponyModel = async (req,res)=>{
-    try {
-      const responce = await fetch(`${bass_URL}/genrate/model/componey`,{
-        method:POST,
-        body:{getAllSelectedSkills}
-      });
-      if(!responce){
-        console.log("responce is empty");
-        return;
-      }
-
-      setResponceses(responce);
-      
-    } catch (error) {
-      console.log("error in the genrate model : ",error);
-    }
-  }
-
-  const predictedCompanies = companies
-    .filter(company => {
-      const selectedSkills = getAllSelectedSkills();
-      const meetsSkillRequirements = company.requiredSkills.some(skill => 
-        selectedSkills.includes(skill)
-      );
-      return Number(academicScore.cgpa) >= company.minCGPA && meetsSkillRequirements;
-    })
-    .slice(0, 5);
-
-  const predictedColleges = colleges.filter(college => 
-    college.exam === selectedExam && 
-    Number(examScore) >= college.minPercentile
-  );
-
-  const renderSkillsSection = (title, skills, setSkills) => (
-    <div className="bg-white p-6 rounded-lg shadow">
-      <h2 className="text-xl font-semibold mb-4">{title}</h2>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {Object.entries(skills).map(([skill, checked]) => (
-          <label key={skill} className="flex items-center space-x-2 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={checked}
-              onChange={(e) => setSkills(prev => ({ ...prev, [skill]: e.target.checked }))}
-              className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-            />
-            <span className="text-sm font-medium text-gray-700">{skill}</span>
-          </label>
-        ))}
-      </div>
-    </div>
-  );
+  const toggleAnswer = (id) => setAnswers(prev => ({ ...prev, [id]: !prev[id] }));
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <Brain className="h-8 w-8 text-blue-600" />
-            <h1 className="text-2xl font-bold text-gray-900">CareerGuide Pro</h1>
+    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans">
+      {/* Premium Navbar */}
+      <nav className="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <div className="bg-indigo-600 p-2 rounded-lg">
+              <Brain className="text-white w-5 h-5" />
+            </div>
+            <span className="text-xl font-bold text-slate-800">Career<span className="text-indigo-600">Sync AI</span></span>
           </div>
-          <nav className="flex space-x-4">
-            <button
+          <div className="flex bg-slate-100 p-1 rounded-xl">
+            <button 
               onClick={() => setActiveSection('company')}
-              className={`px-4 py-2 rounded-md ${
-                activeSection === 'company'
-                  ? 'bg-blue-100 text-blue-700'
-                  : 'text-gray-600 hover:bg-gray-100'
-              }`}
+              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeSection === 'company' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500'}`}
             >
-              <Briefcase className="inline-block h-5 w-5 mr-2" />
-              Company Prediction
+              Placement Match
             </button>
-            <button
+            <button 
               onClick={() => setActiveSection('college')}
-              className={`px-4 py-2 rounded-md ${
-                activeSection === 'college'
-                  ? 'bg-blue-100 text-blue-700'
-                  : 'text-gray-600 hover:bg-gray-100'
-              }`}
+              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeSection === 'college' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500'}`}
             >
-              <GraduationCap className="inline-block h-5 w-5 mr-2" />
-              College Prediction
+              College Finder
             </button>
-            <button
-              onClick={() => setActiveSection('insights')}
-              className={`px-4 py-2 rounded-md ${
-                activeSection === 'insights'
-                  ? 'bg-blue-100 text-blue-700'
-                  : 'text-gray-600 hover:bg-gray-100'
-              }`}
-            >
-              <LineChart className="inline-block h-5 w-5 mr-2" />
-              Insights
-            </button>
-          </nav>
+          </div>
         </div>
-      </header>
+      </nav>
 
-      <main className="max-w-7xl mx-auto px-4 py-8">
+      <main className="max-w-6xl mx-auto py-10 px-6">
         {activeSection === 'company' && (
-          <div className="space-y-6">
-            <div className="bg-white p-6 rounded-lg shadow">
-              <h2 className="text-xl font-semibold mb-4">Academic Information</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    10th Percentage
-                  </label>
-                  <input
-                    type="number"
-                    placeholder="Enter percentage"
-                    className="w-full p-2 border rounded focus:ring-blue-500 focus:border-blue-500"
-                    value={academicScore.tenth}
-                    onChange={(e) => setAcademicScore({ ...academicScore, tenth: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    12th Percentage
-                  </label>
-                  <input
-                    type="number"
-                    placeholder="Enter percentage"
-                    className="w-full p-2 border rounded focus:ring-blue-500 focus:border-blue-500"
-                    value={academicScore.twelfth}
-                    onChange={(e) => setAcademicScore({ ...academicScore, twelfth: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    BE/BTech CGPA
-                  </label>
-                  <input
-                    type="number"
-                    placeholder="Enter CGPA"
-                    className="w-full p-2 border rounded focus:ring-blue-500 focus:border-blue-500"
-                    value={academicScore.cgpa}
-                    onChange={(e) => setAcademicScore({ ...academicScore, cgpa: e.target.value })}
-                  />
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            {/* Left Sidebar: Profile Summary */}
+            <div className="lg:col-span-4">
+              <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm sticky top-24">
+                <h3 className="font-bold text-slate-800 flex items-center gap-2 mb-6">
+                  <BarChart3 className="w-5 h-5 text-indigo-600" />
+                  Live Profile Analysis
+                </h3>
+                
+                <div className="space-y-6">
+                  <div>
+                    <div className="flex justify-between text-xs font-bold text-slate-400 uppercase mb-2">
+                      <span>Academic CGPA</span>
+                      <span>{academicScore.cgpa || '0.0'}/10</span>
+                    </div>
+                    <div className="h-2 bg-slate-100 rounded-full">
+                      <div className="h-full bg-indigo-500 rounded-full transition-all duration-500" style={{ width: `${(academicScore.cgpa || 0) * 10}%` }}></div>
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-indigo-50 rounded-2xl border border-indigo-100">
+                    <div className="flex items-start gap-3">
+                      <Zap className="w-5 h-5 text-indigo-600 mt-1" />
+                      <p className="text-xs text-indigo-800 leading-relaxed font-medium">
+                        Matching your profile against <b>{companies.length} global enterprises</b> and startup benchmarks.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {renderSkillsSection('Programming Languages', programmingSkills, setProgrammingSkills)}
-            {renderSkillsSection('Frameworks', frameworks, setFrameworks)}
-            {renderSkillsSection('Databases', databases, setDatabases)}
-            {renderSkillsSection('Cloud & DevOps', cloudSkills, setCloudSkills)}
+            {/* Right Side: Stepper Content */}
+            <div className="lg:col-span-8">
+              {step === 1 && (
+                <div className="bg-white p-8 md:p-12 rounded-[32px] border border-slate-200 shadow-sm animate-in fade-in slide-in-from-bottom-4">
+                  <h2 className="text-3xl font-extrabold text-slate-900 mb-2">Build Your Profile</h2>
+                  <p className="text-slate-500 mb-10">Select your specialization to start the matching process.</p>
+                  
+                  <div className="space-y-8">
+                    <div>
+                      <label className="text-sm font-bold text-slate-700 mb-3 block">Engineering Specialization</label>
+<select
+  value={branch || ""}
+  onChange={(e) => setBranch(e.target.value)}
+  className="w-full p-4 bg-white border border-slate-300 rounded-xl 
+             text-slate-900 font-semibold 
+             focus:outline-none focus:ring-2 focus:ring-indigo-200 
+             focus:border-indigo-400 cursor-pointer"
+>
+  <option value="">Choose your branch...</option>
 
-            <div className="bg-white p-6 rounded-lg shadow">
-              <h2 className="text-xl font-semibold mb-4">Soft Skills</h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {Object.entries(softSkills).map(([key, value]) => (
-                  <label key={key} className="flex items-center space-x-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={value}
-                      onChange={(e) =>
-                        setSoftSkills({ ...softSkills, [key]: e.target.checked })
-                      }
-                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                    />
-                    <span className="text-sm font-medium text-gray-700">
-                      {key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}
-                    </span>
-                  </label>
-                ))}
-              </div>
-            </div>
+  {Object.keys(branchData || {}).map((k) => (
+    <option key={k} value={k}>
+      {k}
+    </option>
+  ))}
+</select>
 
-            <div className="bg-white p-6 rounded-lg shadow">
-              <h2 className="text-xl font-semibold mb-4">Experience</h2>
-              <label className="flex items-center space-x-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={hasInternship}
-                  onChange={(e) => setHasInternship(e.target.checked)}
-                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                />
-                <span className="text-sm font-medium text-gray-700">
-                  Previous Internship Experience
-                </span>
-              </label>
-            </div>
-
-            <div className="bg-white p-6 rounded-lg shadow">
-              <h2 className="text-xl font-semibold mb-4">Top 5 Predicted Companies</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {predictedCompanies.map((company) => (
-                  <div
-                    key={company.name}
-                    className="p-4 border rounded-lg hover:shadow-md transition-shadow"
-                  >
-                    <div className="flex items-center space-x-3">
-                      <img
-                        src={company.logo}
-                        alt={company.name}
-                        className="w-12 h-12 object-cover rounded"
+                    </div>
+                    
+                    <div>
+                      <label className="text-sm font-bold text-slate-700 mb-3 block">Current CGPA</label>
+                      <input 
+                        type="number" 
+                        step="0.01"
+                        value={academicScore.cgpa}
+                        onChange={(e) => setAcademicScore({...academicScore, cgpa: e.target.value})}
+                        placeholder="e.g. 8.5"
+                        className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-indigo-100 outline-none transition-all font-bold text-slate-800"
                       />
-                      <div>
-                        <h3 className="font-semibold text-gray-900">{company.name}</h3>
-                        <p className="text-sm text-gray-600">Min CGPA: {company.minCGPA}</p>
-                      </div>
-                    </div>
-                    <div className="mt-2">
-                      <p className="text-sm text-gray-600">Required Skills:</p>
-                      <div className="flex flex-wrap gap-1 mt-1">
-                        {company.requiredSkills.map((skill) => (
-                          <span
-                            key={skill}
-                            className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded"
-                          >
-                            {skill}
-                          </span>
-                        ))}
-                      </div>
                     </div>
                   </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
 
-        {activeSection === 'college' && (
-          <div className="space-y-6">
-            <div className="bg-white p-6 rounded-lg shadow">
-              <h2 className="text-xl font-semibold mb-4">Exam Information</h2>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Select Exam
-                  </label>
-                  <select
-                    className="w-full p-2 border rounded focus:ring-blue-500 focus:border-blue-500"
-                    value={selectedExam}
-                    onChange={(e) => setSelectedExam(e.target.value)}
+                  <button 
+                    disabled={!branch || !academicScore.cgpa}
+                    onClick={() => setStep(2)}
+                    className="mt-12 w-full bg-indigo-600 text-white py-5 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-indigo-700 shadow-xl shadow-indigo-100 disabled:opacity-20 transition-all active:scale-95"
                   >
-                    <option value="JEE Main">JEE Main</option>
-                    <option value="JEE Advanced">JEE Advanced</option>
-                    <option value="MHT-CET">MHT-CET</option>
-                    <option value="GATE">GATE</option>
-                  </select>
+                    Next: Verify Technical Skills <ChevronRight className="w-5 h-5" />
+                  </button>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Percentile Score
-                  </label>
-                  <input
-                    type="number"
-                    placeholder="Enter your percentile"
-                    className="w-full p-2 border rounded focus:ring-blue-500 focus:border-blue-500"
-                    value={examScore}
-                    onChange={(e) => setExamScore(e.target.value)}
-                  />
-                </div>
-              </div>
-            </div>
+              )}
 
-            <div className="bg-white p-6 rounded-lg shadow">
-              <h2 className="text-xl font-semibold mb-4">Predicted Colleges</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {predictedColleges.map((college) => (
-                  <div
-                    key={college.name}
-                    className="p-4 border rounded-lg hover:shadow-md transition-shadow"
-                  >
-                    <h3 className="font-semibold text-gray-900">{college.name}</h3>
-                    <p className="text-sm text-gray-600">{college.location}</p>
-                    <p className="text-sm text-gray-600">
-                      Min Percentile: {college.minPercentile}
-                    </p>
+              {step === 2 && (
+                <div className="bg-white p-8 md:p-12 rounded-[32px] border border-slate-200 shadow-sm animate-in slide-in-from-right">
+                  <button onClick={() => setStep(1)} className="text-slate-400 hover:text-indigo-600 flex items-center gap-2 mb-8 font-bold text-sm">
+                    <ArrowLeft className="w-4 h-4" /> Go Back
+                  </button>
+                  <h2 className="text-3xl font-extrabold text-slate-900 mb-6">Skill Verification</h2>
+                  
+                  <div className="grid gap-4">
+                    {branchData[branch]?.questions.map(q => (
+                      <div 
+                        key={q.id}
+                        onClick={() => toggleAnswer(q.id)}
+                        className={`p-6 border-2 rounded-2xl cursor-pointer transition-all flex items-center justify-between group ${
+                          answers[q.id] ? 'border-indigo-600 bg-indigo-50/30' : 'border-slate-100 bg-slate-50/50 hover:border-slate-200'
+                        }`}
+                      >
+                        <div className="flex items-center gap-4">
+                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${answers[q.id] ? 'bg-indigo-600 text-white' : 'bg-white text-slate-400 border border-slate-200'}`}>
+                            <Target className="w-5 h-5" />
+                          </div>
+                          <span className={`font-bold text-lg ${answers[q.id] ? 'text-indigo-900' : 'text-slate-600'}`}>{q.text}</span>
+                        </div>
+                        {answers[q.id] && <CheckCircle className="text-indigo-600 w-6 h-6" />}
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+
+                  <button onClick={() => setStep(3)} className="mt-12 w-full bg-indigo-600 text-white py-5 rounded-2xl font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all active:scale-95">
+                    Generate Placement Report
+                  </button>
+                </div>
+              )}
+
+              {step === 3 && (
+                <div className="space-y-6 animate-in fade-in zoom-in duration-500">
+                  <div className="flex justify-between items-center bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <div>
+                      <h2 className="text-xl font-bold text-slate-800">Top Matches Found</h2>
+                      <p className="text-sm text-slate-400 font-medium">Based on {Object.keys(answers).length} verified skill points</p>
+                    </div>
+                    <button onClick={() => setStep(1)} className="bg-slate-900 text-white px-5 py-2 rounded-xl text-xs font-bold hover:bg-indigo-600 transition-colors">Retake Test</button>
+                  </div>
+                  
+                  <div className="grid gap-6">
+                    {predictedCompanies.map((company) => (
+  <div key={company.name} className="bg-white rounded-[32px] border border-slate-200 shadow-sm overflow-hidden group mb-8">
+    <div className="p-8">
+      {/* Header Section */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-slate-50 pb-6">
+        <div className="flex items-center gap-6">
+          <div className="w-20 h-20 bg-white rounded-2xl p-2 flex items-center justify-center border border-slate-100 shadow-sm">
+            <img 
+              src={company.logo} 
+              alt={company.name} 
+              className="max-h-full max-w-full object-contain"
+              onError={(e) => { e.target.src = "https://via.placeholder.com/100?text=" + company.name; }}
+            />
+          </div>
+          <div>
+            <h3 className="text-2xl font-black text-slate-800">{company.name}</h3>
+            <div className="flex gap-2 mt-1">
+              <span className="px-2 py-1 bg-indigo-50 text-indigo-600 text-[10px] font-bold rounded-md uppercase">
+                {company.category}
+              </span>
+              <span className="px-2 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-bold rounded-md uppercase">
+                Min CGPA: {company.minCGPA}
+              </span>
             </div>
           </div>
-        )}
+        </div>
 
-        {activeSection === 'insights' && (
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h2 className="text-xl font-semibold mb-4">Career Insights</h2>
-            <p className="text-gray-600">
-              Coming soon! This section will provide detailed analytics and insights
-              about career trends and opportunities.
-            </p>
+        <div className="text-right">
+          <div className="text-3xl font-black text-indigo-600">{company.matchScore}%</div>
+          <div className="text-[10px] font-bold text-slate-400 uppercase">Profile Match</div>
+        </div>
+      </div>
+
+      {/* Student Guide Section: New Content */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-6">
+        <div className="space-y-1">
+          <p className="text-[11px] font-bold text-slate-400 uppercase flex items-center gap-1">
+            <DollarSign className="w-3 h-3" /> Freshman Package
+          </p>
+          <p className="text-lg font-bold text-slate-800">{company.package || 'N/A'}</p>
+        </div>
+        <div className="space-y-1">
+          <p className="text-[11px] font-bold text-slate-400 uppercase flex items-center gap-1">
+            <TrendingUp className="w-3 h-3" /> Selection Rate
+          </p>
+          <p className="text-lg font-bold text-slate-800">{company.selectionRate || 'N/A'}</p>
+        </div>
+        <div className="space-y-1">
+          <p className="text-[11px] font-bold text-slate-400 uppercase flex items-center gap-1">
+            <GraduationCap className="w-3 h-3" /> Eligible Branches
+          </p>
+          <p className="text-sm font-bold text-slate-600">{company.branch.join(', ')}</p>
+        </div>
+      </div>
+
+      {/* Syllabus / Preparation Roadmap */}
+      <div className="bg-slate-50 rounded-2xl p-6">
+        <h4 className="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2">
+          <BookOpen className="w-4 h-4 text-indigo-500" /> Preparation Syllabus
+        </h4>
+        <div className="flex flex-wrap gap-2">
+          {company.syllabus?.map((item, idx) => (
+            <span key={idx} className="bg-white px-3 py-1.5 border border-slate-200 rounded-lg text-xs font-medium text-slate-600">
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <button className="w-full mt-6 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-indigo-600 transition-all">
+        Download Full Interview Guide
+      </button>
+    </div>
+  </div>
+))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         )}
       </main>

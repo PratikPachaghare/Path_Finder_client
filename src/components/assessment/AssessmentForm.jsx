@@ -109,8 +109,7 @@ const AssessmentForm = ({ setResponsess, user }) => {
 
       const responseData = await response.json();
       setResponsess(responseData);
-      navigate("/roadmapView");
-    } catch (error) {
+      navigate("/roadmapView", { state: { isNew: true } });    } catch (error) {
       console.error("Error submitting assessment:", error);
       setError("Failed to submit assessment. Please try again.");
     } finally {
