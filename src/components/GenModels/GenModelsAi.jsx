@@ -93,7 +93,7 @@ function GenModelsAi() {
                       <span>Academic CGPA</span>
                       <span>{academicScore.cgpa || '0.0'}/10</span>
                     </div>
-                    <div className="h-2 bg-slate-100 rounded-full">
+                    <div className="h-3 bg-slate-100 rounded-full">
                       <div className="h-full bg-indigo-500 rounded-full transition-all duration-500" style={{ width: `${(academicScore.cgpa || 0) * 10}%` }}></div>
                     </div>
                   </div>
