@@ -36,7 +36,7 @@ const DUMMY_DATA = {
     { 
       title: "Lead Artist & Songwriter", 
       company: "Republic Records", 
-      year: "2008 - 2014", 
+      year: "2008 - 2015", 
       desc: "Wrote and produced multiple Grammy-winning albums, achieving unprecedented commercial success. Pioneered new songwriting techniques and collaborated with industry-leading producers and artists worldwide." 
     }
   ],
