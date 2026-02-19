@@ -30,13 +30,13 @@ const DUMMY_DATA = {
     { 
       title: "Founder & CEO", 
       company: "Taylor Swift Productions", 
-      year: "2015 - Present", 
+      year: "2014 - Present", 
       desc: "Founded and manage independent music production company with focus on artist development, album production, and innovative music technology integration. Led strategic expansion into multiple entertainment verticals including film production and music publishing." 
     },
     { 
       title: "Lead Artist & Songwriter", 
       company: "Republic Records", 
-      year: "2008 - 2015", 
+      year: "2008 - 2017", 
       desc: "Wrote and produced multiple Grammy-winning albums, achieving unprecedented commercial success. Pioneered new songwriting techniques and collaborated with industry-leading producers and artists worldwide." 
     }
   ],
