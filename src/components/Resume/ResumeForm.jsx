@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 
 const SUGGESTED_SKILLS = [
-  "React", "Node.js", "Python", "JavaScript", "TypeScript", "HTML5", "CSS3", 
+  "React", "Node.js", "Python","AL & ML", "JavaScript", "TypeScript", "HTML5", "CSS3", 
   "Java", "C++", "C#", "SQL", "MongoDB", "PostgreSQL", "AWS", "Docker", 
   "Kubernetes", "Git", "Figma", "Adobe XD", "Next.js", "Vue.js", "Angular", 
   "Express", "Django", "Flask", "Spring Boot", "Flutter", "Swift", "Kotlin"
