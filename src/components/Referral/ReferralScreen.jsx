@@ -83,8 +83,14 @@ export default function ReferralScreen() {
   const handleShareWhatsApp = () => {
     if (!referralStats?.referralCode) return;
 
+    const appLink = 'https://path-finder-client-mocha.vercel.app/';
     const message = encodeURIComponent(
-      `🎯 Join Sarthi AI and start your career journey! 📚\n\nUse my referral code: ${referralStats.referralCode}\n\nEarn points with every referral and redeem free courses! 🎁\n\nSign up now and get started! 🚀`
+      `*Sarthi AI - Career Guidance Platform*\n\n` +
+      `Hi! Join me on Sarthi AI to explore career roadmaps, learning paths, and expert guidance.\n\n` +
+      `My Referral Code: *${referralStats.referralCode}*\n` +
+      `Use this code during signup to get bonus points.\n\n` +
+      `Website Link: ${appLink}\n\n` +
+      `Start now and build your career with AI support!`
     );
     window.open(`https://wa.me/?text=${message}`, '_blank');
   };
