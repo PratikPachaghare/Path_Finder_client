@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Lock, User, Phone } from 'lucide-react';
+import { Mail, Lock, User, Phone, Gift } from 'lucide-react';
 import { bass_URL } from '../../utils/api';
 
 const RegisterPage = () => {
@@ -8,6 +8,7 @@ const RegisterPage = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [phone, setPhone] = useState('');
+  const [referralCode, setReferralCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -28,7 +29,7 @@ const RegisterPage = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, email, password, phone }),
+        body: JSON.stringify({ name, email, password, phone, referralCode: referralCode.trim() }),
       });
 
       const data = await response.json();
@@ -98,6 +99,19 @@ const RegisterPage = () => {
             onChange={(e) => setPassword(e.target.value)}
             className="block w-full pl-10 py-2 border border-gray-300 rounded-lg"
             required
+          />
+        </div>
+      </div>
+      <div className="space-y-2">
+        <label className="text-sm font-medium text-gray-700">Referral Code (Optional)</label>
+        <div className="relative">
+          <Gift className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+          <input
+            type="text"
+            placeholder="Enter referral code"
+            value={referralCode}
+            onChange={(e) => setReferralCode(e.target.value.toUpperCase())}
+            className="block w-full pl-10 py-2 border border-gray-300 rounded-lg"
           />
         </div>
       </div>
