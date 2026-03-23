@@ -51,16 +51,7 @@ const Sidebar = () => {
         } lg:translate-x-0 w-64 z-40`}
       >
         <div className="flex flex-col h-full p-4">
-          {/* Logo Section */}
-          <div
-            className="flex items-center gap-2 mb-8 ml-2 cursor-pointer"
-            onClick={() => navigate('/welcome')}
-          >
-            <Bot className="w-10 h-10 text-blue-600" />
-            <span className="text-2xl font-bold text-blue-600">Sarthi AI</span>
-          </div>
-
-          <div className="flex-1 space-y-4 mt-2">
+          <div className="flex-1 space-y-4 mt-14">
             {[
               { path: '/welcome', label: 'Home', icon: Home },
               { path: '/assessment', label: 'Assessment', icon: BarChart2 },

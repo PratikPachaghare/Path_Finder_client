@@ -76,7 +76,7 @@ function App() {
     localStorage.removeItem("token");
     setUser(null);
   };
-
+  console.log("User in App.jsx:", user);
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen text-xl">

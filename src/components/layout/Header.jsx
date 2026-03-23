@@ -1,32 +1,54 @@
-import React from 'react';
-import { Sparkles, UserCircle, Compass } from 'lucide-react'; // Added Compass for the logo
+import React, { useEffect, useRef, useState } from 'react';
+import { Sparkles, UserCircle, LogOut, Mail, Phone, Bot } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const Header = ({ user }) => {
+const Header = ({ user, onLogout }) => {
   const navigate = useNavigate();
   const displayName = user?.name || 'User';
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const profileRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setIsProfileOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const handleProfileToggle = () => {
+    setIsProfileOpen((prev) => !prev);
+  };
+
+  const handleLogoutClick = () => {
+    setIsProfileOpen(false);
+    if (onLogout) {
+      onLogout();
+    }
+  };
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
-          
-          {/* --- LOGO SECTION START --- */}
+
           <div 
-            className="flex-shrink-0 flex items-center gap-3 cursor-pointer group" 
-            onClick={() => navigate('/')}
+            className="flex-shrink-0 -ml-20 flex items-center gap-3 cursor-pointer group" 
+            onClick={() => navigate('/welcome')}
           >
-            {/* Logo Icon Container */}
-            <div className="bg-gradient-to-br from-indigo-600 to-violet-600 p-2 rounded-lg shadow-md group-hover:shadow-indigo-500/30 transition-all duration-300">
-              <Compass className="w-6 h-6 text-white" />
+            <div className="bg-blue-50 p-2 rounded-lg transition-colors group-hover:bg-blue-100">
+              <Bot className="w-6 h-6 text-blue-600" />
             </div>
-            
-            {/* Logo Text */}
-            <h1 className="text-2xl font-bold text-gray-900 tracking-tight group-hover:text-indigo-700 transition-colors">
-              Career Guidance
+
+            <h1 className="text-2xl font-bold text-blue-600 tracking-tight">
+              Sarthi AI
             </h1>
           </div>
-          {/* --- LOGO SECTION END --- */}
 
           {/* Right Side Actions */}
           <div className="flex items-center space-x-4">
@@ -55,11 +77,50 @@ const Header = ({ user }) => {
             </button>
 
             {/* User Profile Section */}
-            <div className="flex items-center gap-2 pl-2 md:pl-4 md:border-l border-gray-200">
+            <div ref={profileRef} className="relative flex items-center gap-2 pl-2 md:pl-4 md:border-l border-gray-200">
               <span className="text-sm font-medium text-gray-700 hidden md:block">
                 {displayName}
               </span>
-              <UserCircle className="w-8 h-8 text-gray-400" />
+              <button
+                type="button"
+                onClick={handleProfileToggle}
+                className="rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                aria-label="Open profile menu"
+              >
+                <UserCircle className="w-8 h-8 text-gray-400 hover:text-gray-600 transition-colors" />
+              </button>
+
+              {isProfileOpen && (
+                <div className="absolute right-0 top-12 w-72 rounded-xl border border-gray-200 bg-white shadow-xl p-4 z-50">
+                  <h3 className="text-sm font-semibold text-gray-900 mb-3">Profile</h3>
+
+                  <div className="space-y-2 text-sm text-gray-700">
+                    <div>
+                      <span className="font-medium text-gray-900">Name: </span>
+                      <span>{user?.name || 'N/A'}</span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <Mail className="w-4 h-4 text-gray-500" />
+                      <span className="truncate">{user?.email || 'N/A'}</span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <Phone className="w-4 h-4 text-gray-500" />
+                      <span>{user?.phone || 'N/A'}</span>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleLogoutClick}
+                    className="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 border border-red-200 px-3 py-2 text-sm font-medium transition-colors"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Logout
+                  </button>
+                </div>
+              )}
             </div>
 
           </div>

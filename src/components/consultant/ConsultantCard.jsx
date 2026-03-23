@@ -4,7 +4,7 @@ import { bass_URL } from "../../utils/api";
 export default function ConsultantCard({ consultant, user }) {
   const [bookedOption, setBookedOption] = useState(null);
 
-  const sendEmail = async (type) => {
+  const sendEmail = async () => {
     try {
       await fetch(`${bass_URL}/send-email`, {
         method: "POST",
@@ -12,11 +12,8 @@ export default function ConsultantCard({ consultant, user }) {
         body: JSON.stringify({
           userEmail: user.email,
           consultantName: consultant.name,
-          meetingType: type,
-          meetingPrice:
-            type === "Chat & Call"
-              ? consultant.chatCallPrice
-              : consultant.videoMeetPrice,
+          meetingType: "Appointment Request",
+          meetingPrice: consultant.price,
         }),
       });
       console.log("Email sent successfully");
@@ -25,13 +22,13 @@ export default function ConsultantCard({ consultant, user }) {
     }
   };
 
-  const handleBooking = (type) => {
-    setBookedOption(type);
+  const handleBooking = () => {
+    setBookedOption("Appointment Requested");
     alert(
-      `Your ${type} consultation with ${consultant.name} is booked! A confirmation email and schedule details have been sent.`
+      `Your appointment request with ${consultant.name} has been sent. A confirmation email and schedule details will be shared soon.`
     );
 
-    sendEmail(type); // Send confirmation email
+    sendEmail(); // Send confirmation email
   };
 
   return (
@@ -61,23 +58,15 @@ export default function ConsultantCard({ consultant, user }) {
             className="mt-4 w-full py-2 rounded-lg bg-green-600 text-white"
             disabled
           >
-            {bookedOption} Booked
+            {bookedOption}
           </button>
         ) : (
-          <div className="mt-4 flex flex-col gap-2">
-            <button
-              onClick={() => handleBooking("Chat & Call")}
-              className="w-full py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition"
-            >
-              Chat & Call - ₹{consultant.chatCallPrice || 800}
-            </button>
-            <button
-              onClick={() => handleBooking("Video Meet")}
-              className="w-full py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition"
-            >
-              Video Meet - ₹{consultant.videoMeetPrice || 1500}
-            </button>
-          </div>
+          <button
+            onClick={handleBooking}
+            className="mt-4 w-full py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
+          >
+            Request Appointment
+          </button>
         )}
       </div>
     </div>
