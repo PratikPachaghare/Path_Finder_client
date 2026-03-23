@@ -1,89 +1,59 @@
 import ConsultantCard from "./ConsultantCard";
-import imageg1 from "../../Assete/consultant/imageg1.webp"
-import imageg5 from "../../Assete/consultant/imageg5.jpg"
-import imageg7 from "../../Assete/consultant/imageg7.jpg"
-import imageb2 from "../../Assete/consultant/image2.jpeg"
-import imageb3 from "../../Assete/consultant/imageb3.jpeg"
-import imageb6 from "../../Assete/consultant/imageb6.jpg"
+import defaultProfile from "../../Assete/consultant/profile-image.jpg";
+import ashishProfile from "../../Assete/consultant/asihsh_shinde.jpeg";
 
 const consultants = [
   {
     id: 1,
-    name: "Dr. Arjun Mehta",
-    education: "B.Tech, M.Tech",
-    degree: "Software Engineering Professor",
-    image: imageb2, // Boy
+    name: "Kaustubh Nilkanth Teware",
+    education: "Current Company: TCS, Manila, Philippines",
+    degree: "IT Infrastructure Manager",
+    image: defaultProfile,
     rating: 4.8,
     description:
-      "A renowned professor with 15 years of experience in full-stack development.",
+      "Contact: +91 8208236534 | knteware@gmail.com",
     price: 1200,
     chatCallPrice: 900,
     videoMeetPrice: 1600,
   },
   {
     id: 2,
-    name: "Dr. Pooja Verma",
-    education: "PhD in AI & ML",
-    degree: "AI/ML Researcher",
-    image: imageg1, // Girl
+    name: "Mr. Ashish Shende",
+    education: "Current Company: Emergys Solutions Private Limited, Pune",
+    degree: "Application Development Architect",
+    image: ashishProfile,
     rating: 4.7,
     description:
-      "A specialist in artificial intelligence, deep learning, and neural networks with extensive research background.",
+      "Contact: ashishpshende@gmail.com",
     price: 1500,
     chatCallPrice: 1000,
     videoMeetPrice: 1800,
   },
   {
     id: 3,
-    name: "Prof. Aman Gupta",
-    education: "B.Tech, M.S.",
-    degree: "Cybersecurity Analyst & Lecturer",
-    image: imageb3, // Boy
+    name: "Dr. Vaibhav Khandare",
+    education: "Sri Sri Ravishankar Research Lab, Bangalor",
+    degree: "Sr. Research Manager",
+    image: defaultProfile,
     rating: 4.9,
     description:
-      "A cybersecurity expert and lecturer, experienced in ethical hacking and data protection.",
+      "Contact: +91 98192 66123",
     price: 1300,
     chatCallPrice: 950,
     videoMeetPrice: 1700,
   },
   {
     id: 4,
-    name: "Dr. Neha Kapoor",
-    education: "B.Tech in Data Science",
-    degree: "Data Science Professor",
-    image: imageg5, // Girl
+    name: "Sachin Manohar Dandage",
+    education: "PLITMS Buldhana",
+    degree: "Vice-Principal (Cosmetics Engineering)",
+    image: defaultProfile,
     rating: 4.6,
     description:
-      "A data analytics and machine learning expert, committed to cutting-edge research and teaching.",
+      "Contact: 9921394713 | dandage.sachin@gmail.com",
     price: 1400,
     chatCallPrice: 1000,
     videoMeetPrice: 1750,
-  },
-  {
-    id: 5,
-    name: "Prof. Vikram Singh",
-    education: "B.Tech in Robotics",
-    degree: "Robotics & Automation Specialist",
-    image: imageb6, // Boy
-    rating: 4.7,
-    description:
-      "An expert in AI-powered robotics, automation, and industrial applications with a strong academic background.",
-    price: 1600,
-    chatCallPrice: 1100,
-    videoMeetPrice: 1900,
-  },
-  {
-    id: 6,
-    name: "Dr. Anjali Mehta",
-    education: "B.Tech in Electrical Engineering",
-    degree: "Embedded Systems Professor",
-    image: imageg7, // Girl
-    rating: 4.8,
-    description:
-      "Specialized in IoT, microcontrollers, and embedded software development with years of teaching experience.",
-    price: 1100,
-    chatCallPrice: 850,
-    videoMeetPrice: 1600,
   },
 ];
 

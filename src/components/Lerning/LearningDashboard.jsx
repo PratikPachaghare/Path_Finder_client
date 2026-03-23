@@ -13,67 +13,75 @@ const levels = [
     id: 1, 
     title: "The Mindset Shift", 
     subtitle: "From Student to Professional", 
-    info: "Professional world me enter karne ke liye sabse pehle mindset badalna zaroori hai. Yahan hum discipline aur goal-setting seekhenge.", 
-    videoId: "dQw4w9WgXcQ" 
+    info: "Build a growth mindset, accountability, and daily discipline to transition from student mode to professional mode.", 
+    searchQuery: "growth mindset for students and professionals",
+    youtubeLink: "https://www.youtube.com/embed/75d_29QWELk" // Growth Mindset by Carol Dweck (summary)
   },
   { 
     id: 2, 
     title: "Core Fundamentals", 
     subtitle: "Basic Technical Understanding", 
-    info: "Aapke domain ki core knowledge. Bina mazboot foundation ke building nahi khadi hoti.", 
-    videoId: "dQw4w9WgXcQ" 
+    info: "Strengthen your foundation in core domain concepts before moving to advanced topics.", 
+    searchQuery: "technical fundamentals for beginners",
+    youtubeLink: "https://www.youtube.com/embed/8PopR3x-VMY" // Learning fundamentals
   },
   { 
     id: 3, 
     title: "Communication Mastery", 
     subtitle: "The Art of Speaking", 
-    info: "Sirf kaam aana kaafi nahi hai, use explain karna bhi aana chahiye. Verbal aur written communication ki depth.", 
-    videoId: "dQw4w9WgXcQ" 
+    info: "Learn how to explain ideas clearly in interviews, meetings, and written communication.", 
+    searchQuery: "communication skills for workplace and interviews",
+    youtubeLink: "https://www.youtube.com/embed/HAnw168huqA" // Communication skills
   },
   { 
     id: 4, 
     title: "Human Behaviour", 
     subtitle: "Psychology in Workplace", 
-    info: "Empathy, emotional intelligence, aur ye samajhna ki log kaise react karte hain. Teamwork ke liye sabse important.", 
-    videoId: "dQw4w9WgXcQ" 
+    info: "Understand emotional intelligence, empathy, and behavior patterns to collaborate effectively.", 
+    searchQuery: "workplace psychology emotional intelligence",
+    youtubeLink: "https://www.youtube.com/embed/Y7m9eNoB3NU" // Emotional Intelligence
   },
   { 
     id: 5, 
     title: "Body Language", 
     subtitle: "Non-Verbal Impact", 
-    info: "Aapka posture, eye contact aur hand gestures 70% communication handle karte hain. Confidence kaise dikhayein.", 
-    videoId: "dQw4w9WgXcQ" 
+    info: "Improve posture, eye contact, and confidence cues to make a strong professional impression.", 
+    searchQuery: "body language for interviews and presentations",
+    youtubeLink: "https://www.youtube.com/embed/4jwUXV4QaTw" // Body language tips
   },
   { 
     id: 6, 
     title: "Interview Blueprint", 
     subtitle: "Cracking the Code", 
-    info: "Common questions ko handle kaise karein, pressure me calm kaise rahein aur HR rounds ko kaise clear karein.", 
-    videoId: "dQw4w9WgXcQ" 
+    info: "Prepare for common interview questions, structured answers, and confidence under pressure.", 
+    searchQuery: "interview preparation HR and technical rounds",
+    youtubeLink: "https://www.youtube.com/embed/1mHjMNZZvFo" // Interview tips
   },
   { 
     id: 7, 
     title: "Career Roadmap", 
     subtitle: "Long-term Planning", 
-    info: "Sirf job nahi, career kaise build karein. 5 saal ka vision aur networking strategies.", 
-    videoId: "dQw4w9WgXcQ" 
+    info: "Plan a 3-5 year growth path with clear milestones, role transitions, and network building.", 
+    searchQuery: "career roadmap planning for students",
+    youtubeLink: "https://www.youtube.com/embed/d6wRkzCW5qI" // Career planning
   },
   { 
     id: 8, 
     title: "Professional Ethics", 
     subtitle: "Corporate Etiquettes", 
-    info: "Email writing, meeting manners aur office politics ko professional tarike se handle karna.", 
-    videoId: "dQw4w9WgXcQ" 
+    info: "Master workplace etiquette, professional writing, and ethical decision-making practices.", 
+    searchQuery: "professional ethics and corporate etiquette",
+    youtubeLink: "https://www.youtube.com/embed/5Z3Yy1Yw9rA" // Workplace etiquette
   },
   { 
     id: 9, 
     title: "Final Launch", 
     subtitle: "Portfolio & Branding", 
-    info: "Apne saare skills ko ek jagah lakar apni personal branding karna aur market ke liye ready hona.", 
-    videoId: "dQw4w9WgXcQ" 
+    info: "Build a portfolio, optimize your profile, and create a clear personal brand for job readiness.",
+    searchQuery: "portfolio and personal branding for freshers",
+    youtubeLink: "https://www.youtube.com/embed/RVkXxLh2DaA" // Personal branding
   }
 ];
-
   const handleComplete = (id) => {
     if (id === levels.length) {
       setIsCompleted(true);

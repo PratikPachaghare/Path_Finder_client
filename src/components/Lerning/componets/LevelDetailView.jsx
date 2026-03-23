@@ -48,7 +48,7 @@ const LevelDetailView = ({ level, onClose, onComplete }) => {
         <div className="flex-1 bg-slate-100 rounded-3xl overflow-hidden shadow-inner border border-[#E2E8F0]">
           <iframe 
             className="w-full h-full" 
-            src={`https://www.youtube.com/embed/${level.videoId}`}
+            src={level.youtubeLink}
             title="Learning Content"
             frameBorder="0"
             allowFullScreen

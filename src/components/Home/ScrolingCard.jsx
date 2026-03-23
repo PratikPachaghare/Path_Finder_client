@@ -11,73 +11,73 @@ import website from '../../Asset/imagesWeb/scrolingCard/Rectangle6.png';
 export default function ScrolingCard() {
   const cardDetail = [
     {
-      title: "Custom Website Development",
+      title: "Smart Career Assessment",
       description:
-        "Unlock your potential by learning how to develop custom websites. This guidance covers essential design principles, coding techniques, and modern frameworks to help you build professional websites from scratch.",
+        "Start with our assessment engine to identify your strengths, interests, and career fit across technology domains.",
       bulletPoints: [
-        "We craft designs and designs tailored to your unique business needs.",
-        "Our skilled professionals ensure innovation and precision in every project.",
-        "Trusted by industries to deliver results that drive growth.",
+        "Role-aligned questions for accurate skill and interest mapping.",
+        "Instant analysis to suggest high-potential career directions.",
+        "A strong first step before roadmap and learning planning.",
       ],
       image: website,
       bgColor: "yellow", // Yellow background
     },
     {
-      title: "Custom Application Development",
+      title: "Personalized Roadmap Builder",
       description:
-        "Gain practical insights and step-by-step guidance on developing custom applications. Learn about application architecture, coding standards, and testing techniques to bring your innovative ideas to life.",
+        "Generate a step-by-step career roadmap with clear milestones, tools, and next actions based on your profile.",
       bulletPoints: [
-        "Custom applications tailored to your business, driving success.",
-        "Utilizing the latest tech to take your business ahead and scalable.",
-        "Effortlessly integrating with your systems for smooth and efficient workflows.",
+        "AI-generated path from beginner level to job-ready stage.",
+        "Structured goals across foundations, projects, and outcomes.",
+        "Easy tracking through your roadmap dashboard.",
       ],
       image: app,
       bgColor: "red", // Red background
     },
     {
-      title: "Digital Marketing Services",
+      title: "Learning Dashboard",
       description:
-        "Explore digital marketing fundamentals with hands-on student guidance. Learn effective strategies for social media, SEO, and content marketing to build a strong personal brand.",
+        "Follow curated learning stages with topic-focused guidance and direct video-based support for each level.",
       bulletPoints: [
-        "We focus on driving meaningful growth and long-term success for your business.",
-        "Our creative approach ensures your brand stands out in the crowded digital space.",
-        "We transform insights into impactful campaigns that deliver results.",
+        "Progress-based levels to unlock learning step by step.",
+        "Practical content focused on career growth and interviews.",
+        "Consistent learning flow from basics to advanced readiness.",
       ],
       image: digital,
       bgColor: "pink", // Pink background
     },
     {
-      title: "WhatsApp Business API Services",
+      title: "GenModels AI Guidance",
       description:
-        "Understand the integration of WhatsApp Business APIs through student-focused tutorials. Learn how to implement, configure, and optimize communication channels for enhanced connectivity.",
+        "Use the GenModels section to explore AI-supported career suggestions and preparation paths for modern roles.",
       bulletPoints: [
-        "Establish direct connections with your customers through personalized support.",
-        "Our innovative approach ensures your brand stands out in the crowded digital space.",
-        "Expand your business with flexible API features that grow with you.",
+        "Data-backed suggestions for role selection and planning.",
+        "Career-focused recommendations with practical direction.",
+        "Built to reduce confusion and improve decision confidence.",
       ],
       image: whatapp,
       bgColor: "orange", // Orange background
     },
     {
-      title: "Power & BI Visualization Services",
+      title: "Resume and Portfolio Support",
       description:
-        "Master data visualization with student-centric guidance on using Power BI. Learn to transform complex data into interactive dashboards that reveal key insights.",
+        "Build a stronger professional profile with resume-ready guidance and portfolio planning aligned to your target role.",
       bulletPoints: [
-        "Transform raw data into interactive visualizations that reveal key business trends.",
-        "Tailor-made dashboards provide real-time data for smart decision-making.",
-        "Deliver clear, actionable insights that drive business success.",
+        "Role-specific positioning for fresher and early-career candidates.",
+        "Project and skill presentation tips for better visibility.",
+        "Focused preparation for hiring and internship opportunities.",
       ],
       image: bigData,
       bgColor: "blue", // Blue background
     },
     {
-      title: "Cloud Data Analytics Services",
+      title: "Consultant and Career Mentoring",
       description:
-        "Develop your skills in cloud data analytics with targeted student guidance. Learn to harness cloud platforms, perform real-time analysis, and make data-driven decisions.",
+        "Get expert support for roadmap refinement, interview preparation, and practical career decisions.",
       bulletPoints: [
-        "Modern cloud solutions drive data insights that empower smarter decision-making.",
-        "Real-time analytics ensure you’re always ahead of your industry curve.",
-        "Custom strategies provide data solutions that fuel business growth.",
+        "Mentor-driven guidance for real-world career challenges.",
+        "Actionable improvements for learning and placement readiness.",
+        "Continuous support to stay on track with your goals.",
       ],
       image: anylesis,
       bgColor: "green", // Green background
