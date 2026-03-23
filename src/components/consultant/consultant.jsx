@@ -1,6 +1,7 @@
 import ConsultantCard from "./ConsultantCard";
 import defaultProfile from "../../Assete/consultant/profile-image.jpg";
 import ashishProfile from "../../Assete/consultant/asihsh_shinde.jpeg";
+import { useLanguage } from '../../context/LanguageContext';
 
 const consultants = [
   {
@@ -58,13 +59,15 @@ const consultants = [
 ];
 
 export default function Consultant({user}) {
+  const { t } = useLanguage();
+
   return (
     <div className="p-8">
       <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
-        Meet Our Expert Consultants
+        {t('consultantsTitle')}
       </h2>
       <p className="text-center text-gray-600 mb-8">
-        Get expert guidance from top professionals in their respective fields.
+        {t('consultantsSubtitle')}
       </p>
 
       <div className="flex flex-wrap justify-center gap-6">

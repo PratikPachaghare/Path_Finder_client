@@ -4,8 +4,10 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useLanguage } from '../../context/LanguageContext';
 
 const DemoRegistration = ({ courses }) => {
+  const { t } = useLanguage();
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -82,11 +84,10 @@ const DemoRegistration = ({ courses }) => {
       <div className="grid grid-cols-1  md:grid-cols-2">
         <div className="p-6 md:p-8 h-5/6">
           <h2 className="text-2xl font-bold text-gray-800 mb-2">
-            Register for a Free Demo
+            {t('registerFreeDemo')}
           </h2>
           <p className="text-gray-600 mb-6">
-            Experience our world-class courses with a free demo session. Fill
-            out the form to get started.
+            {t('demoSubtitle')}
           </p>
 
           {submitted ? (
@@ -94,11 +95,10 @@ const DemoRegistration = ({ courses }) => {
               className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
               role="alert"
             >
-              <strong className="font-bold">Success!</strong>
+              <strong className="font-bold">{t('success')}</strong>
               <span className="block sm:inline">
-                {" "}
-                We've received your registration for the free demo of{" "}
-                {selectedCourse.title}. We'll contact you shortly!
+                {' '}
+                {t('demoSuccessStart')} {selectedCourse.title}. {t('demoSuccessEnd')}
               </span>
             </div>
           ) : (
@@ -108,7 +108,7 @@ const DemoRegistration = ({ courses }) => {
                   htmlFor="course"
                   className="block text-sm font-medium text-gray-700 mb-1"
                 >
-                  Selected Course
+                  {t('selectedCourse')}
                 </label>
                 <select
                   id="course"
@@ -134,7 +134,7 @@ const DemoRegistration = ({ courses }) => {
                   htmlFor="name"
                   className="block text-sm font-medium text-gray-700 mb-1"
                 >
-                  Full Name
+                  {t('fullName')}
                 </label>
                 <input
                   type="text"
@@ -151,7 +151,7 @@ const DemoRegistration = ({ courses }) => {
                   htmlFor="email"
                   className="block text-sm font-medium text-gray-700 mb-1"
                 >
-                  Email Address
+                  {t('emailAddress')}
                 </label>
                 <input
                   type="email"
@@ -168,7 +168,7 @@ const DemoRegistration = ({ courses }) => {
                   htmlFor="phone"
                   className="block text-sm font-medium text-gray-700 mb-1"
                 >
-                  Phone Number
+                  {t('phoneNumber')}
                 </label>
                 <input
                   type="tel"
@@ -184,7 +184,7 @@ const DemoRegistration = ({ courses }) => {
                 type="submit"
                 className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors font-medium"
               >
-                Register for Free Demo
+                {t('registerButton')}
               </button>
             </form>
           )}

@@ -4,18 +4,21 @@ import Google_Cloud from '../../Asset/imagesWeb/patners/Google_Cloud.png';
 import meta from '../../Asset/imagesWeb/patners/meta.png';
 import Microsoft_Azure from '../../Asset/imagesWeb/patners/Microsoft_Azure.png';
 import Microsoft_FasCave from '../../Asset/imagesWeb/patners/Microsoft_FasCave.png';
+import { useLanguage } from '../../context/LanguageContext';
 
 
 export default function OurPatners() {
+  const { t } = useLanguage();
+
   return (
     <div className="flex-col justify-center bg-white py-10 ">
       
       <h1 className="text-center text-3xl font-bold text-blue-950 mb-8">
-        OUR PATNERS
+        {t('partnersTitle').toUpperCase()}
       </h1>
 
       <p className="w-1/2 m-auto text-center text-xl text-gray-600  mb-8">
-      Our strategic partners help us deliver unmatched business value and unique experiences
+      {t('partnersSubtitle')}
       </p>
 
       {/* Infinite Scrolling Logos */}

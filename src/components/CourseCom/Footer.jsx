@@ -1,7 +1,10 @@
 import React from 'react';
 import { BookOpen, Mail, Phone, MapPin } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 const Footer = () => {
+  const { t } = useLanguage();
+
   return (
     <footer className="bg-gray-800 text-white pt-12 pb-8">
       <div className="container mx-auto px-4">
@@ -12,7 +15,7 @@ const Footer = () => {
               <span className="text-xl font-bold">SarthiAI</span>
             </div>
             <p className="text-gray-400 mb-4">
-              Empowering the next generation of tech professionals with cutting-edge courses and expert instruction.
+              {t('footerAbout')}
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-white">
@@ -39,29 +42,29 @@ const Footer = () => {
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-lg font-semibold mb-4">{t('footerQuickLinks')}</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-400 hover:text-white">Home</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">All Courses</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">About Us</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">Contact</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">Blog</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white">{t('home')}</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white">{t('footerAllCourses')}</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white">{t('footerAboutUs')}</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white">{t('footerContact')}</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white">{t('footerBlog')}</a></li>
             </ul>
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold mb-4">Course Categories</h3>
+            <h3 className="text-lg font-semibold mb-4">{t('footerCourseCategories')}</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-400 hover:text-white">Web Development</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">Data Science</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">Mobile Development</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">Cloud Computing</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white">Artificial Intelligence</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white">{t('footerWebDevelopment')}</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white">{t('footerDataScience')}</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white">{t('footerMobileDevelopment')}</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white">{t('footerCloudComputing')}</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white">{t('footerArtificialIntelligence')}</a></li>
             </ul>
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
+            <h3 className="text-lg font-semibold mb-4">{t('footerContactUs')}</h3>
             <ul className="space-y-3">
               <li className="flex items-start space-x-3">
                 <MapPin className="h-5 w-5 text-gray-400 mt-0.5" />
@@ -80,7 +83,7 @@ const Footer = () => {
         </div>
         
         <div className="border-t border-gray-700 mt-10 pt-6 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} PathFinder. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} PathFinder. {t('footerRights')}</p>
         </div>
       </div>
     </footer>

@@ -5,9 +5,11 @@ import DemoRegistration from './DemoRegistration';
 import CourseCard from './CourseCard';
 import Footer from './Footer';
 import { courses } from '../../CourseData/courses';
+import { useLanguage } from '../../context/LanguageContext';
 
 
 function CourseApp() {
+  const { t } = useLanguage();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedLevel, setSelectedLevel] = useState('');
@@ -39,9 +41,9 @@ function CourseApp() {
       <main className="flex-grow container mx-auto px-4 py-8">
         <section className="mb-10">
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-800 mb-4">Explore Our Technical Courses</h1>
+            <h1 className="text-4xl font-bold text-gray-800 mb-4">{t('courseExploreTitle')}</h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Discover cutting-edge technical courses designed to help you master the skills needed for today's digital world.
+              {t('courseExploreSubtitle')}
             </p>
           </div>
           <DemoRegistration courses={courses} />
@@ -61,8 +63,8 @@ function CourseApp() {
           
           {filteredCourses.length === 0 ? (
             <div className="text-center py-12">
-              <h3 className="text-xl font-medium text-gray-600">No courses found matching your criteria</h3>
-              <p className="mt-2 text-gray-500">Try adjusting your filters or search term</p>
+              <h3 className="text-xl font-medium text-gray-600">{t('noCoursesTitle')}</h3>
+              <p className="mt-2 text-gray-500">{t('noCoursesSubtitle')}</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

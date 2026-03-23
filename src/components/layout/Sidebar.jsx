@@ -12,11 +12,14 @@ import {
   Settings,
   LogOut,
   Home,
+  Gift,
 } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [active, setActive] = useState(location.pathname);
 
@@ -53,16 +56,17 @@ const Sidebar = () => {
         <div className="flex flex-col h-full p-4">
           <div className="flex-1 space-y-4 mt-14">
             {[
-              { path: '/welcome', label: 'Home', icon: Home },
-              { path: '/assessment', label: 'Assessment', icon: BarChart2 },
-              { path: '/roadmap', label: 'Roadmap Dashboard', icon: Map },
-              { path: '/Resume', label: 'Resume Builder', icon: Settings },
-              { path: '/Learning', label: 'Learning Dashboard', icon: BarChart2 },
-              { path: '/chatBot', label: 'Talk to AI', icon: Bot },
-              { path: '/consultant', label: 'Consultant', icon: UserCog },
-              { path: '/courses', label: 'Courses', icon: GraduationCap },
-              { path: '/predict', label: 'Prediction', icon: Activity },
-            ].map(({ path, label, icon: Icon }) => (
+              { path: '/welcome', labelKey: 'home', icon: Home },
+              { path: '/assessment', labelKey: 'assessment', icon: BarChart2 },
+              { path: '/roadmap', labelKey: 'roadmapDashboard', icon: Map },
+              { path: '/Resume', labelKey: 'resumeBuilder', icon: Settings },
+              { path: '/Learning', labelKey: 'learningDashboard', icon: BarChart2 },
+              { path: '/chatBot', labelKey: 'talkToAI', icon: Bot },
+              { path: '/consultant', labelKey: 'consultant', icon: UserCog },
+              { path: '/courses', labelKey: 'courses', icon: GraduationCap },
+              { path: '/predict', labelKey: 'prediction', icon: Activity },
+              { path: '/referral', labelKey: 'referralScreen', icon: Gift },
+            ].map(({ path, labelKey, icon: Icon }) => (
               <button
                 key={path}
                 onClick={() => handleNavigation(path)}
@@ -73,7 +77,7 @@ const Sidebar = () => {
                 }`}
               >
                 <Icon className="w-5 h-5" />
-                <span>{label}</span>
+                <span>{t(labelKey)}</span>
               </button>
             ))}
           </div>
@@ -96,7 +100,7 @@ const Sidebar = () => {
               className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
             >
               <LogOut className="w-5 h-5" />
-              <span>Logout</span>
+              <span>{t('logout')}</span>
             </button>
           </div>
         </div>

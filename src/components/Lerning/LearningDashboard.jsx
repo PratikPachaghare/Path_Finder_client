@@ -2,13 +2,88 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import LevelDetailView from './componets/LevelDetailView';
 import { Check, Lock, Trophy, ArrowRight } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 const LearningDashboard = () => {
+  const { language, t } = useLanguage();
   const [currentLevel, setCurrentLevel] = useState(1);
   const [activeLevel, setActiveLevel] = useState(null);
   const [isCompleted, setIsCompleted] = useState(false);
 
-const levels = [
+const levels = language === 'hi' ? [
+  {
+    id: 1,
+    title: 'सोच में बदलाव',
+    subtitle: 'स्टूडेंट से प्रोफेशनल तक',
+    info: 'ग्रोथ माइंडसेट, जिम्मेदारी और दैनिक अनुशासन बनाएं ताकि स्टूडेंट मोड से प्रोफेशनल मोड में आ सकें।',
+    searchQuery: 'growth mindset for students and professionals',
+    youtubeLink: 'https://www.youtube.com/embed/75d_29QWELk'
+  },
+  {
+    id: 2,
+    title: 'मुख्य आधार',
+    subtitle: 'बेसिक तकनीकी समझ',
+    info: 'एडवांस्ड टॉपिक्स से पहले मूलभूत डोमेन कॉन्सेप्ट मजबूत करें।',
+    searchQuery: 'technical fundamentals for beginners',
+    youtubeLink: 'https://www.youtube.com/embed/8PopR3x-VMY'
+  },
+  {
+    id: 3,
+    title: 'कम्युनिकेशन मास्टरी',
+    subtitle: 'स्पष्ट अभिव्यक्ति की कला',
+    info: 'इंटरव्यू, मीटिंग और लिखित संचार में विचार स्पष्ट रूप से रखना सीखें।',
+    searchQuery: 'communication skills for workplace and interviews',
+    youtubeLink: 'https://www.youtube.com/embed/HAnw168huqA'
+  },
+  {
+    id: 4,
+    title: 'मानव व्यवहार',
+    subtitle: 'वर्कप्लेस मनोविज्ञान',
+    info: 'बेहतर सहयोग के लिए भावनात्मक बुद्धिमत्ता, सहानुभूति और व्यवहार पैटर्न समझें।',
+    searchQuery: 'workplace psychology emotional intelligence',
+    youtubeLink: 'https://www.youtube.com/embed/Y7m9eNoB3NU'
+  },
+  {
+    id: 5,
+    title: 'बॉडी लैंग्वेज',
+    subtitle: 'गैर-मौखिक प्रभाव',
+    info: 'मजबूत प्रोफेशनल प्रभाव के लिए पॉश्चर, आई कॉन्टैक्ट और कॉन्फिडेंस संकेत सुधारें।',
+    searchQuery: 'body language for interviews and presentations',
+    youtubeLink: 'https://www.youtube.com/embed/4jwUXV4QaTw'
+  },
+  {
+    id: 6,
+    title: 'इंटरव्यू ब्लूप्रिंट',
+    subtitle: 'सफलता का फॉर्मूला',
+    info: 'सामान्य इंटरव्यू प्रश्न, संरचित उत्तर और दबाव में आत्मविश्वास की तैयारी करें।',
+    searchQuery: 'interview preparation HR and technical rounds',
+    youtubeLink: 'https://www.youtube.com/embed/1mHjMNZZvFo'
+  },
+  {
+    id: 7,
+    title: 'करियर रोडमैप',
+    subtitle: 'दीर्घकालिक योजना',
+    info: 'स्पष्ट माइलस्टोन, भूमिका बदलाव और नेटवर्किंग के साथ 3-5 साल की ग्रोथ योजना बनाएं।',
+    searchQuery: 'career roadmap planning for students',
+    youtubeLink: 'https://www.youtube.com/embed/d6wRkzCW5qI'
+  },
+  {
+    id: 8,
+    title: 'प्रोफेशनल एथिक्स',
+    subtitle: 'कॉर्पोरेट एटीकेट्स',
+    info: 'वर्कप्लेस एटीकेट, प्रोफेशनल लेखन और एथिकल निर्णय कौशल विकसित करें।',
+    searchQuery: 'professional ethics and corporate etiquette',
+    youtubeLink: 'https://www.youtube.com/embed/5Z3Yy1Yw9rA'
+  },
+  {
+    id: 9,
+    title: 'फाइनल लॉन्च',
+    subtitle: 'पोर्टफोलियो और ब्रांडिंग',
+    info: 'पोर्टफोलियो बनाएं, प्रोफाइल ऑप्टिमाइज़ करें और जॉब रेडीनेस के लिए स्पष्ट पर्सनल ब्रांड तैयार करें।',
+    searchQuery: 'portfolio and personal branding for freshers',
+    youtubeLink: 'https://www.youtube.com/embed/RVkXxLh2DaA'
+  }
+] : [
   { 
     id: 1, 
     title: "The Mindset Shift", 
@@ -96,8 +171,8 @@ const levels = [
     <div className="min-h-screen bg-[#F8FAFC] p-4 md:p-10 font-sans text-[#1E293B]">
       {/* Header */}
       <div className="max-w-4xl mx-auto mb-12">
-        <h1 className="text-3xl font-extrabold text-[#0F172A]">Learning Roadmap</h1>
-        <p className="text-[#64748B] mt-1">Track your progress from beginner to professional.</p>
+        <h1 className="text-3xl font-extrabold text-[#0F172A]">{t('learningRoadmap')}</h1>
+        <p className="text-[#64748B] mt-1">{t('learningProgress')}</p>
       </div>
 
       {/* Roadmap Path */}
@@ -161,10 +236,10 @@ const levels = [
               <div className="w-20 h-20 bg-blue-50 text-[#2563EB] rounded-full flex items-center justify-center mx-auto mb-4">
                 <Trophy size={40} />
               </div>
-              <h2 className="text-2xl font-bold text-[#0F172A]">Course Completed!</h2>
-              <p className="text-[#64748B] mt-2 mb-6">Congratulations! You have successfully transitioned to a Professional Student.</p>
+              <h2 className="text-2xl font-bold text-[#0F172A]">{t('courseCompleted')}</h2>
+              <p className="text-[#64748B] mt-2 mb-6">{t('courseCompletedMsg')}</p>
               <button onClick={() => setIsCompleted(false)} className="w-full bg-[#2563EB] text-white py-3 rounded-lg font-semibold hover:bg-[#1D4ED8] transition">
-                Close
+                {t('close')}
               </button>
             </motion.div>
           </div>

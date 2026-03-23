@@ -15,6 +15,7 @@ import ChatDashboard from "./components/chatbot/ChatBot";
 import CourseApp from "./components/CourseCom/CourseApp";
 import GenModelsAi from "./components/GenModels/GenModelsAi";
 import ResumeBuilder from "./components/Resume/ResumeBuilder";
+import ReferralScreen from "./components/Referral/ReferralScreen";
 import { bass_URL } from "./utils/api";
 import LearningDashboard from "./components/Lerning/LearningDashboard";
 import Pricing from "./components/upgrad/pricing";
@@ -106,6 +107,7 @@ function App() {
                 <Route path="/Resume" element={<ResumeBuilder />} />
                 <Route path="/Learning" element={<LearningDashboard />} />
                 <Route path="/Pricing" element={<Pricing />} />
+                <Route path="/referral" element={<ReferralScreen />} />
                 <Route path="/compare-roadmaps" element={<RoadmapComparison />} />
                 
                 {/* <Route path="/CourseVedio/:courseId" element={<CourseVideoPage />} /> */}

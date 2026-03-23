@@ -9,10 +9,12 @@ import { useNavigate } from 'react-router-dom';
 import Footer from '../CourseCom/Footer';
 import StepImage from "../../Assete/setp_roadmap.jpg"
 import Step_Pencial_Image from "../../Assete/setp_pencial_roadmap.png"
+import { useLanguage } from '../../context/LanguageContext';
 // import CourseVideoPage from '../CourseCom/VedioCard';
 
 const Welcome = ({user}) => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   return (
     <>
       <div className="absolute inset-0 bg-animation z-0">
@@ -25,10 +27,10 @@ const Welcome = ({user}) => {
             <Compass className="w-8 h-8 text-blue-600 {} relative z-10" />
           </div>
           <h1 className="relative z-10 text-4xl font-bold text-gray-800">
-            Welcome, {user.name}!
+            {t('welcomeTitle')}, {user.name}!
           </h1>
           <p className="relative z-10 text-xl text-gray-600 max-w-2xl mx-auto">
-            Let's help you discover your perfect career path. Start by taking our comprehensive assessment to get personalized recommendations.
+            {t('welcomeSubtitle')}
           </p>
         </div>
 
@@ -39,15 +41,15 @@ const Welcome = ({user}) => {
             className="w-full h-auto object-cover z-10"
           />
           <div className="p-8 relative z-10">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Ready to Begin Your Journey?</h2>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-4">{t('readyTitle')}</h2>
             <p className="text-gray-600 mb-6">
-              Our assessment will help understand your interests, skills, and aspirations to guide you toward the most suitable engineering career path.
+              {t('readySubtitle')}
             </p>
             <button
       onClick={() => navigate("/assessment")} // Navigate to the Assessment page
       className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition duration-200"
     >
-      Start Assessment
+      {t('startAssessment')}
     </button>
           </div>
         </div>

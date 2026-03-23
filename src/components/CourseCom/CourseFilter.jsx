@@ -1,5 +1,6 @@
 import React from 'react';
 import { Search } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 const CourseFilter = ({
   categories,
@@ -11,13 +12,15 @@ const CourseFilter = ({
   onLevelChange,
   onSearchChange
 }) => {
+  const { t } = useLanguage();
+
   return (
     <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-      <h2 className="text-xl font-bold mb-4 text-gray-800">Filter Courses</h2>
+      <h2 className="text-xl font-bold mb-4 text-gray-800">{t('filterCourses')}</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">
-            Search
+            {t('search')}
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -29,14 +32,14 @@ const CourseFilter = ({
               value={searchTerm}
               onChange={(e) => onSearchChange(e.target.value)}
               className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2 border"
-              placeholder="Search courses..."
+              placeholder={t('searchCoursesPlaceholder')}
             />
           </div>
         </div>
         
         <div>
           <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
-            Category
+            {t('category')}
           </label>
           <select
             id="category"
@@ -44,7 +47,7 @@ const CourseFilter = ({
             onChange={(e) => onCategoryChange(e.target.value)}
             className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2 border"
           >
-            <option value="">All Categories</option>
+            <option value="">{t('allCategories')}</option>
             {categories.map((category) => (
               <option key={category} value={category}>
                 {category}
@@ -55,7 +58,7 @@ const CourseFilter = ({
         
         <div>
           <label htmlFor="level" className="block text-sm font-medium text-gray-700 mb-1">
-            Level
+            {t('level')}
           </label>
           <select
             id="level"
@@ -63,7 +66,7 @@ const CourseFilter = ({
             onChange={(e) => onLevelChange(e.target.value)}
             className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2 border"
           >
-            <option value="">All Levels</option>
+            <option value="">{t('allLevels')}</option>
             {levels.map((level) => (
               <option key={level} value={level}>
                 {level}

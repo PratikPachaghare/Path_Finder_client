@@ -1,8 +1,11 @@
 import React from 'react';
 import { Star } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
+import { useLanguage } from '../../context/LanguageContext';
 
 const CourseCard = ({ course }) => {
+  const { t } = useLanguage();
+
   return (
 <NavLink to={`/CourseVedio/${course.courseId}`} target="_blank" state={{ CourseName: course.courseId }}> 
    <div className="bg-white rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:shadow-xl hover:-translate-y-1">
@@ -34,14 +37,14 @@ const CourseCard = ({ course }) => {
           <div className="flex items-center">
             <Star className="h-4 w-4 text-yellow-500 fill-current" />
             <span className="text-sm ml-1 font-medium">{course.rating}</span>
-            <span className="text-xs text-gray-500 ml-1">({course.students.toLocaleString()} students)</span>
+            <span className="text-xs text-gray-500 ml-1">({course.students.toLocaleString()} {t('students')})</span>
           </div>
           <span className="text-sm font-medium">{course.duration}</span>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-xl font-bold text-blue-600">₹{course.price.toLocaleString()}</span>
           <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
-            Enroll Now
+            {t('enrollNow')}
           </button>
         </div>
       </div>

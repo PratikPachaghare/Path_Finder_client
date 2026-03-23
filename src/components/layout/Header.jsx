@@ -1,12 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Sparkles, UserCircle, LogOut, Mail, Phone, Bot } from 'lucide-react';
+import { Sparkles, UserCircle, LogOut, Mail, Phone, Bot, Languages, Gift } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../../context/LanguageContext';
 
 const Header = ({ user, onLogout }) => {
   const navigate = useNavigate();
+  const { language, toggleLanguage, t } = useLanguage();
   const displayName = user?.name || 'User';
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const profileRef = useRef(null);
+  const languageButtonLabel = language === 'en' ? 'हिंदी' : 'English';
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -52,6 +55,15 @@ const Header = ({ user, onLogout }) => {
 
           {/* Right Side Actions */}
           <div className="flex items-center space-x-4">
+            <button
+              type="button"
+              onClick={toggleLanguage}
+              className="inline-flex items-center gap-2 rounded-full border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-100 transition-colors"
+              aria-label="Toggle language"
+            >
+              <Languages className="w-4 h-4" />
+              <span>{languageButtonLabel}</span>
+            </button>
             
             {/* Upgrade Button */}
             <button 
@@ -73,7 +85,7 @@ const Header = ({ user, onLogout }) => {
               "
             >
               <Sparkles className="w-4 h-4 text-yellow-300 group-hover:rotate-12 transition-transform" />
-              <span>Upgrade Pro</span>
+              <span>{t('upgradePro')}</span>
             </button>
 
             {/* User Profile Section */}
@@ -92,32 +104,49 @@ const Header = ({ user, onLogout }) => {
 
               {isProfileOpen && (
                 <div className="absolute right-0 top-12 w-72 rounded-xl border border-gray-200 bg-white shadow-xl p-4 z-50">
-                  <h3 className="text-sm font-semibold text-gray-900 mb-3">Profile</h3>
+                  <h3 className="text-sm font-semibold text-gray-900 mb-3">{t('profile')}</h3>
 
                   <div className="space-y-2 text-sm text-gray-700">
                     <div>
-                      <span className="font-medium text-gray-900">Name: </span>
-                      <span>{user?.name || 'N/A'}</span>
+                      <span className="font-medium text-gray-900">{t('nameLabel')}: </span>
+                      <span>{user?.name || t('notAvailable')}</span>
                     </div>
 
                     <div className="flex items-center gap-2">
                       <Mail className="w-4 h-4 text-gray-500" />
-                      <span className="truncate">{user?.email || 'N/A'}</span>
+                      <span className="truncate">{user?.email || t('notAvailable')}</span>
                     </div>
 
                     <div className="flex items-center gap-2">
                       <Phone className="w-4 h-4 text-gray-500" />
-                      <span>{user?.phone || 'N/A'}</span>
+                      <span>{user?.phone || t('notAvailable')}</span>
+                    </div>
+
+                    <div className="flex items-center gap-2 pt-2 border-t border-gray-200">
+                      <Gift className="w-4 h-4 text-yellow-500" />
+                      <span className="font-medium text-gray-900">{user?.referralPoints || 0} {t('points') || 'Points'}</span>
                     </div>
                   </div>
 
                   <button
                     type="button"
+                    onClick={() => {
+                      navigate('/referral');
+                      setIsProfileOpen(false);
+                    }}
+                    className="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-200 px-3 py-2 text-sm font-medium transition-colors"
+                  >
+                    <Gift className="w-4 h-4" />
+                    {t('viewReferrals')}
+                  </button>
+
+                  <button
+                    type="button"
                     onClick={handleLogoutClick}
-                    className="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 border border-red-200 px-3 py-2 text-sm font-medium transition-colors"
+                    className="mt-2 w-full inline-flex items-center justify-center gap-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 border border-red-200 px-3 py-2 text-sm font-medium transition-colors"
                   >
                     <LogOut className="w-4 h-4" />
-                    Logout
+                    {t('logout')}
                   </button>
                 </div>
               )}

@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { bass_URL } from "../../utils/api";
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function ConsultantCard({ consultant, user }) {
   const [bookedOption, setBookedOption] = useState(null);
+  const { t } = useLanguage();
 
   const sendEmail = async () => {
     try {
@@ -23,9 +25,9 @@ export default function ConsultantCard({ consultant, user }) {
   };
 
   const handleBooking = () => {
-    setBookedOption("Appointment Requested");
+    setBookedOption(t('appointmentRequested'));
     alert(
-      `Your appointment request with ${consultant.name} has been sent. A confirmation email and schedule details will be shared soon.`
+      t('appointmentAlert').replace('{name}', consultant.name)
     );
 
     sendEmail(); // Send confirmation email
@@ -50,7 +52,7 @@ export default function ConsultantCard({ consultant, user }) {
         <p className="text-sm text-gray-500 mt-2">{consultant.description}</p>
         <div className="flex items-center justify-between mt-4">
           <span className="text-yellow-500 font-semibold">⭐ {consultant.rating}</span>
-          <span className="text-gray-800 font-bold">₹{consultant.price}/hr</span>
+          <span className="text-gray-800 font-bold">₹{consultant.price}{t('perHour')}</span>
         </div>
 
         {bookedOption ? (
@@ -65,7 +67,7 @@ export default function ConsultantCard({ consultant, user }) {
             onClick={handleBooking}
             className="mt-4 w-full py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
           >
-            Request Appointment
+            {t('requestAppointment')}
           </button>
         )}
       </div>

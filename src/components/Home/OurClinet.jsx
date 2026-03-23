@@ -4,14 +4,17 @@ import foodlex from '../../Asset/imagesWeb/foodlex.png';
 import hiltopTusuki from '../../Asset/imagesWeb/hiltopTusuki.png';
 import ikontech from '../../Asset/imagesWeb/ikontech.png';
 import FasCave from '../../Asset/imagesWeb/FasCave_Logo.png';
+import { useLanguage } from '../../context/LanguageContext';
 
 
 export default function OurClient() {
+  const { t } = useLanguage();
+
   return (
     <div className="flex-col justify-center bg-white py-10 ">
       {/* Section Title */}
       <h1 className="text-center text-3xl font-bold text-blue-950 mb-8">
-        OUR CLIENTS
+        {t('clientsTitle').toUpperCase()}
       </h1>
 
       {/* Infinite Scrolling Logos */}

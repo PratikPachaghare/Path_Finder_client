@@ -25,6 +25,7 @@ import { jsPDF } from "jspdf";
 
 import { useNavigate, useSearchParams,useLocation } from "react-router-dom";
 import { PlusCircle, Trash2 } from "lucide-react";
+import { bass_URL } from "../../utils/api";
 
 
 // const careerData = {
@@ -183,6 +184,9 @@ const RoadmapView = ({careerData}) => {
     overall: 0
   });
   const [feedback, setFeedback] = useState("");
+  const [feedbackSubmitting, setFeedbackSubmitting] = useState(false);
+  const [feedbackError, setFeedbackError] = useState("");
+  const [feedbackSuccess, setFeedbackSuccess] = useState("");
   const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
   const navigate = useNavigate();
 
@@ -626,33 +630,54 @@ yPos += 12;
     doc.save("career-roadmap.pdf");
   };
 
-  const handleFeedbackSubmit = () => {
+  const handleFeedbackSubmit = async () => {
     const feedbackData = {
       ratings,
       feedback,
       careerPath: careerData.title,
       timestamp: new Date().toISOString(),
     };
-    
-    console.log("Feedback Submitted:", feedbackData);
-    console.log("Content Quality Rating:", ratings.contentQuality);
-    console.log("Clarity Rating:", ratings.clarity);
-    console.log("Effectiveness Rating:", ratings.effectiveness);
-    console.log("Overall Experience Rating:", ratings.overall);
-    console.log("Feedback Text:", feedback);
-    
-    // Temporary function call - replace with actual API call later
-    console.log("Sending feedback to backend...");
-    
-    // Reset form and close modal
-    setShowFeedbackModal(false);
-    setRatings({
-      contentQuality: 0,
-      clarity: 0,
-      effectiveness: 0,
-      overall: 0
-    });
-    setFeedback("");
+
+    try {
+      setFeedbackSubmitting(true);
+      setFeedbackError("");
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        throw new Error("Please login to submit feedback.");
+      }
+
+      const response = await fetch(`${bass_URL}/assessment/roadmap-feedback`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(feedbackData),
+      });
+
+      const data = await response.json();
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || data.error || "Failed to submit feedback");
+      }
+
+      setFeedbackSuccess("Feedback saved successfully. Thank you!");
+
+      // Reset form and close modal
+      setShowFeedbackModal(false);
+      setRatings({
+        contentQuality: 0,
+        clarity: 0,
+        effectiveness: 0,
+        overall: 0
+      });
+      setFeedback("");
+      setTimeout(() => setFeedbackSuccess(""), 3000);
+    } catch (error) {
+      setFeedbackError(error.message || "Failed to submit feedback");
+    } finally {
+      setFeedbackSubmitting(false);
+    }
   };
 
   const renderStarRating = (fieldName, label) => (
@@ -1327,15 +1352,17 @@ yPos += 12;
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent resize-none"
                 rows="4"
               />
+              {feedbackError && <p className="text-sm text-red-600 mt-2">{feedbackError}</p>}
             </div>
 
             {/* Action Buttons */}
             <div className="flex gap-3">
               <button
                 onClick={handleFeedbackSubmit}
-                className="flex-1 px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
+                disabled={feedbackSubmitting}
+                className="flex-1 px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition disabled:bg-gray-400"
               >
-                Submit Feedback
+                {feedbackSubmitting ? "Submitting..." : "Submit Feedback"}
               </button>
               <button
                 onClick={() => {
@@ -1354,6 +1381,12 @@ yPos += 12;
               </button>
             </div>
           </div>
+        </div>
+      )}
+
+      {feedbackSuccess && (
+        <div className="fixed bottom-6 right-6 bg-green-600 text-white px-5 py-3 rounded-lg shadow-lg z-50">
+          {feedbackSuccess}
         </div>
       )}
     </div>
